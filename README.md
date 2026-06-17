@@ -98,35 +98,18 @@ npm start
 4. Click **"Run Process"** to apply all morphological operations
 5. View the results in the grid of transformed images
 
-## 🌐 Browser Version (GitHub Pages)
+## 🌐 Try Online (No Installation Required)
 
-**Want to try without installing anything?** We have a browser-only version that runs 100% in your browser!
+A fully functional browser version is available via **GitHub Pages**! Just access the link below to use the tool directly in your browser - no installation, no setup.
 
-### Quick Start - Enable GitHub Pages:
+🔗 **Access**: `https://yourusername.github.io/your-repo-name/`
 
-1. Go to your repository **Settings** → **Pages**
-2. Under **Source**, select **Deploy from a branch**
-3. Choose branch: **main** (or **master**)
-4. Choose folder: **/docs (root)**
-5. Click **Save**
-6. Wait ~1-2 minutes for deployment
-7. Access at: `https://yourusername.github.io/your-repo-name/`
-
-### Features:
-- ✅ **No installation required** - runs directly in the browser
-- ✅ **Works on any device** - Windows, Mac, Linux, tablets, phones
-- ✅ **All morphological operations** - same as desktop versions
-- ✅ **Adjustable kernel size** - real-time slider control
-- ✅ **Instant processing** - powered by OpenCV.js
-- ✅ **Free hosting** - GitHub Pages is completely free
-- ✨ **Created with QWEN AI**
-
-### Files Included:
-- `docs/index.html` - Complete browser application with OpenCV.js via CDN
-- `docs/GITHUB_PAGES_GUIDE.md` - Detailed deployment instructions and alternatives
-
-### How It Works:
-The browser version uses **OpenCV.js** loaded directly from the official OpenCV CDN, so there are no dependencies to install. Everything runs client-side in the user's browser using WebAssembly for near-native performance!
+**Features:**
+- ✅ Runs 100% in the browser using OpenCV.js
+- ✅ Works on any device (Windows, Mac, Linux, tablets, phones)
+- ✅ All morphological operations available
+- ✅ Adjustable kernel size with real-time preview
+- ✨ Created with **QWEN AI**
 
 ---
 
@@ -166,7 +149,6 @@ morphology/
 - **OpenCV.js**: Pure browser-based image processing
 - **Vanilla JavaScript**: No frameworks needed
 - **Modern HTML5/CSS3**: Responsive design
-- ✨ Created with QWEN AI
 
 ## License
 This project is open source and available for educational purposes.
@@ -176,8 +158,6 @@ This project is open source and available for educational purposes.
 - Date: 05/09/2018  
 
 ## Credits
-The JavaScript/Electron version was created with the assistance of **QWEN** AI.
-
-The browser-only version (GitHub Pages) was also created with **QWEN** AI, making it easy to share and access the tool without any installation! 🎉
+Created with the assistance of **QWEN AI**.
 
 
