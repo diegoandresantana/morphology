@@ -1,0 +1,21 @@
+{
+  "name": "jsmorphology",
+  "version": "1.0.0",
+  "description": "Morphology Image Processing Tool - JavaScript/Electron Version",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "morphology",
+    "image-processing",
+    "opencv",
+    "electron"
+  ],
+  "author": "Diego André Sant'Ana <diego.santana@ifms.edu.br>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}
