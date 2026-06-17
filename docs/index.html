@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Morphology - Browser Version</title>
+    <script src="https://docs.opencv.org/4.8.0/opencv.js" async></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9em;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            height: 8px;
+            border-radius: 4px;
+            background: #dee2e6;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .kernel-size-display {
+            font-weight: 700;
+            color: #667eea;
+            min-width: 30px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .image-card h3 {
+            background: #f8f9fa;
+            padding: 15px;
+            color: #495057;
+            font-size: 1.1em;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .image-card canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 250px;
+            background: #f8f9fa;
+            color: #adb5bd;
+            font-size: 1.2em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #667eea;
+            font-size: 1.5em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Image Morphology Operations</h1>
+            <p>Interactive morphological transformations powered by OpenCV.js</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">✨ Created with QWEN AI</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="imageUpload">Upload Image</label>
+                <label class="btn btn-primary" for="imageUpload">
+                    📁 Choose Image
+                </label>
+                <input type="file" id="imageUpload" accept="image/*">
+            </div>
+
+            <div class="control-group">
+                <label for="kernelSize">Kernel Size: <span id="kernelValue" class="kernel-size-display">3</span></label>
+                <input type="range" id="kernelSize" min="1" max="100" value="3">
+            </div>
+
+            <div class="control-group" style="justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="resetAll()">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="image-grid" id="imageGrid">
+            <div class="image-card">
+                <h3>📷 Original</h3>
+                <canvas id="originalCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>⬇️ Erode</h3>
+                <canvas id="erodeCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>⬆️ Dilate</h3>
+                <canvas id="dilateCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>🔓 Open</h3>
+                <canvas id="openCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>🔒 Close</h3>
+                <canvas id="closeCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>🌊 Gradient</h3>
+                <canvas id="gradientCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>🎩 Top Hat</h3>
+                <canvas id="tophatCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>🎭 Black Hat</h3>
+                <canvas id="blackhatCanvas"></canvas>
+            </div>
+            <div class="image-card">
+                <h3>🎨 Custom (Erode + Dilate)</h3>
+                <canvas id="customCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let originalImage = null;
+        let cvReady = false;
+
+        // Wait for OpenCV.js to load
+        function onOpenCvReady() {
+            cvReady = true;
+            console.log('OpenCV.js is ready!');
+        }
+
+        // Check OpenCV status periodically
+        const checkOpenCV = setInterval(() => {
+            if (typeof cv !== 'undefined' && cv.MORPH_ERODE !== undefined) {
+                clearInterval(checkOpenCV);
+                onOpenCvReady();
+            }
+        }, 100);
+
+        document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+        document.getElementById('kernelSize').addEventListener('input', updateKernelSize);
+
+        function updateKernelSize(e) {
+            const size = parseInt(e.target.value);
+            document.getElementById('kernelValue').textContent = size;
+            if (originalImage) {
+                processAllImages();
+            }
+        }
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    drawOriginal();
+                    processAllImages();
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function drawOriginal() {
+            if (!originalImage || !cvReady) return;
+
+            const canvas = document.getElementById('originalCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size to match image (max 400px width for display)
+            const maxWidth = 400;
+            const scale = Math.min(1, maxWidth / originalImage.width);
+            canvas.width = originalImage.width * scale;
+            canvas.height = originalImage.height * scale;
+            
+            ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        function processAllImages() {
+            if (!originalImage || !cvReady) return;
+
+            const kernelSize = parseInt(document.getElementById('kernelSize').value);
+            const ksize = new cv.Size(kernelSize, kernelSize);
+            const anchor = new cv.Point(-1, -1);
+
+            // Read original image
+            const canvas = document.getElementById('originalCanvas');
+            let src = cv.imread(canvas);
+            let gray = new cv.Mat();
+            cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
+
+            // Erode
+            let erodeDst = new cv.Mat();
+            let kernelErode = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.erode(gray, erodeDst, kernelErode, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(erodeDst, 'erodeCanvas');
+
+            // Dilate
+            let dilateDst = new cv.Mat();
+            let kernelDilate = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.dilate(gray, dilateDst, kernelDilate, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(dilateDst, 'dilateCanvas');
+
+            // Open
+            let openDst = new cv.Mat();
+            let kernelOpen = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.morphologyEx(gray, openDst, cv.MORPH_OPEN, kernelOpen, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(openDst, 'openCanvas');
+
+            // Close
+            let closeDst = new cv.Mat();
+            let kernelClose = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.morphologyEx(gray, closeDst, cv.MORPH_CLOSE, kernelClose, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(closeDst, 'closeCanvas');
+
+            // Gradient
+            let gradientDst = new cv.Mat();
+            let kernelGradient = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.morphologyEx(gray, gradientDst, cv.MORPH_GRADIENT, kernelGradient, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(gradientDst, 'gradientCanvas');
+
+            // Top Hat
+            let tophatDst = new cv.Mat();
+            let kernelTopHat = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.morphologyEx(gray, tophatDst, cv.MORPH_TOPHAT, kernelTopHat, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(tophatDst, 'tophatCanvas');
+
+            // Black Hat
+            let blackhatDst = new cv.Mat();
+            let kernelBlackHat = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.morphologyEx(gray, blackhatDst, cv.MORPH_BLACKHAT, kernelBlackHat, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(blackhatDst, 'blackhatCanvas');
+
+            // Custom (Erode then Dilate)
+            let customDst = new cv.Mat();
+            let kernelCustom = cv.getStructuringElement(cv.MORPH_RECT, ksize, anchor);
+            cv.erode(gray, customDst, kernelCustom, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            cv.dilate(customDst, customDst, kernelCustom, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            drawToCanvas(customDst, 'customCanvas');
+
+            // Clean up
+            src.delete();
+            gray.delete();
+            erodeDst.delete();
+            dilateDst.delete();
+            openDst.delete();
+            closeDst.delete();
+            gradientDst.delete();
+            tophatDst.delete();
+            blackhatDst.delete();
+            customDst.delete();
+            kernelErode.delete();
+            kernelDilate.delete();
+            kernelOpen.delete();
+            kernelClose.delete();
+            kernelGradient.delete();
+            kernelTopHat.delete();
+            kernelBlackHat.delete();
+            kernelCustom.delete();
+        }
+
+        function drawToCanvas(mat, canvasId) {
+            const canvas = document.getElementById(canvasId);
+            canvas.width = mat.cols;
+            canvas.height = mat.rows;
+            
+            // Convert to RGBA for display
+            let rgba = new cv.Mat();
+            cv.cvtColor(mat, rgba, cv.COLOR_GRAY2RGBA, 0);
+            cv.imshow(canvas, rgba);
+            rgba.delete();
+        }
+
+        function resetAll() {
+            originalImage = null;
+            document.getElementById('imageUpload').value = '';
+            document.getElementById('kernelSize').value = 3;
+            document.getElementById('kernelValue').textContent = '3';
+            
+            const canvases = document.querySelectorAll('canvas');
+            canvases.forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.width = 300;
+                canvas.height = 250;
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#adb5bd';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('No image loaded', canvas.width / 2, canvas.height / 2);
+            });
+        }
+
+        // Initialize with placeholder
+        resetAll();
+    </script>
+</body>
+</html>

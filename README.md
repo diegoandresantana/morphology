@@ -98,6 +98,38 @@ npm start
 4. Click **"Run Process"** to apply all morphological operations
 5. View the results in the grid of transformed images
 
+## 🌐 Browser Version (GitHub Pages)
+
+**Want to try without installing anything?** We have a browser-only version that runs 100% in your browser!
+
+### Quick Start - Enable GitHub Pages:
+
+1. Go to your repository **Settings** → **Pages**
+2. Under **Source**, select **Deploy from a branch**
+3. Choose branch: **main** (or **master**)
+4. Choose folder: **/docs (root)**
+5. Click **Save**
+6. Wait ~1-2 minutes for deployment
+7. Access at: `https://yourusername.github.io/your-repo-name/`
+
+### Features:
+- ✅ **No installation required** - runs directly in the browser
+- ✅ **Works on any device** - Windows, Mac, Linux, tablets, phones
+- ✅ **All morphological operations** - same as desktop versions
+- ✅ **Adjustable kernel size** - real-time slider control
+- ✅ **Instant processing** - powered by OpenCV.js
+- ✅ **Free hosting** - GitHub Pages is completely free
+- ✨ **Created with QWEN AI**
+
+### Files Included:
+- `docs/index.html` - Complete browser application with OpenCV.js via CDN
+- `docs/GITHUB_PAGES_GUIDE.md` - Detailed deployment instructions and alternatives
+
+### How It Works:
+The browser version uses **OpenCV.js** loaded directly from the official OpenCV CDN, so there are no dependencies to install. Everything runs client-side in the user's browser using WebAssembly for near-native performance!
+
+---
+
 ## Directory Structure
 
 ```
@@ -109,6 +141,9 @@ morphology/
 │   ├── index.html       # UI template
 │   ├── styles.css       # Styling
 │   └── package.json     # Node.js dependencies
+├── docs/                # Browser-only version for GitHub Pages
+│   ├── index.html       # Complete browser version with OpenCV.js
+│   └── GITHUB_PAGES_GUIDE.md  # Deployment instructions
 ├── requirements.txt     # Python dependencies
 ├── .gitignore          # Git ignore rules
 └── README.md           # This file
@@ -127,6 +162,12 @@ morphology/
 - **OpenCV.js**: Image processing in the browser
 - **HTML/CSS/JavaScript**: Frontend interface
 
+### Browser Version (GitHub Pages)
+- **OpenCV.js**: Pure browser-based image processing
+- **Vanilla JavaScript**: No frameworks needed
+- **Modern HTML5/CSS3**: Responsive design
+- ✨ Created with QWEN AI
+
 ## License
 This project is open source and available for educational purposes.
 
@@ -136,5 +177,7 @@ This project is open source and available for educational purposes.
 
 ## Credits
 The JavaScript/Electron version was created with the assistance of **QWEN** AI.
+
+The browser-only version (GitHub Pages) was also created with **QWEN** AI, making it easy to share and access the tool without any installation! 🎉
 
 
