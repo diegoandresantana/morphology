@@ -1,34 +1,140 @@
-# __Samples of Morphology  
-__Autor__: Diego André Sant'Ana (diego.santana@ifms.edu.br)  
-__Version__: 1.0.0  
+# Morphology Image Processing Tool
 
-A simple of Morphology Samples (Dilate, Open, Close, Gradient, Top Hat, Black Hat and Dilate+Open+Erode)
+A desktop application for performing morphological image processing operations such as Dilate, Erode, Open, Close, Gradient, Top Hat, Black Hat, and custom combinations.
 
-### Requirements:
-__You must Install:__  
+## Author
+**Diego André Sant'Ana** - diego.santana@ifms.edu.br
 
-1. [Python 2.7](https://www.python.org/downloads/);
-2. [Nvidia cuda libraries](https://developer.nvidia.com/cuda-downloads);
-3. [Nvidia cuDCNN libraries](https://developer.nvidia.com/cudnn);
-4. [Tensorflow](https://www.tensorflow.org/install/) or [Theano](http://deeplearning.net/software/theano/install.html)\*;
-5. [Keras](https://keras.io/#installation);
-6. [Sklearn](http://scikit-learn.org/stable/);
-7. [h5py](http://www.h5py.org/).
-8. [opencv](https://opencv.org/)
-**note**:  
-\* never tested on Theano.
+## Version
+1.0.0
 
-### How to use:
-- Install requirements above;
-- Run __pyMorphology.py__ python script;
+## Description
+This tool provides a graphical interface to apply various morphological transformations to images. It's useful for image preprocessing, noise removal, edge detection, and feature extraction in computer vision applications.
+
+### Features
+- **Load Images**: Support for JPG and PNG formats
+- **Adjustable Kernel Size**: Customize the morphological kernel size (1-100)
+- **Multiple Operations**:
+  - Grayscale conversion
+  - Erode
+  - Dilate
+  - Open
+  - Close
+  - Morphological Gradient
+  - Top Hat
+  - Black Hat
+  - Custom: Dilate + Open + Erode
+- **Real-time Preview**: View all transformations simultaneously
+- **Interactive GUI**: User-friendly interface with side-by-side comparison
+
+## Requirements
+
+### Python Version
+- Python 2.7 or Python 3.x
+
+### Dependencies
+Install the required packages using pip:
+
+```bash
+pip install -r requirements.txt
 ```
-$ sudo python ./pyMorphology.py
- 
-### Directory structure
 
-        morphology/   
-        ├── pyMorphology.py(Program)  
-        ├── .gitignore (git ignore)  
-        └── README.md (some infos)  
+Or install manually:
+
+```bash
+pip install numpy opencv-python pillow
+```
+
+**Note**: Tkinter comes pre-installed with Python on most systems. If you're on Linux, you may need to install it separately:
+```bash
+sudo apt-get install python-tk  # For Python 2
+sudo apt-get install python3-tk  # For Python 3
+```
+
+## Installation
+
+### Python Version
+
+1. Clone this repository:
+```bash
+git clone <repository-url>
+cd morphology
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the application:
+```bash
+python pyMorphology.py
+```
+
+### JavaScript/Electron Version
+
+1. Navigate to the jsMorphology directory:
+```bash
+cd jsMorphology
+```
+
+2. Install Node.js dependencies:
+```bash
+npm install
+```
+
+3. Run the application:
+```bash
+npm start
+```
+
+**Note**: You need Node.js and npm installed. Download from [nodejs.org](https://nodejs.org/)
+
+## How to Use
+
+1. Launch the application using the command above
+2. Click **"Select Image"** to load a JPG or PNG image
+3. Adjust the **Kernel size** using the spinbox (default: 1)
+4. Click **"Run Process"** to apply all morphological operations
+5. View the results in the grid of transformed images
+
+## Directory Structure
+
+```
+morphology/
+├── pyMorphology.py      # Main application (Python version)
+├── jsMorphology/        # JavaScript/Electron version
+│   ├── main.js          # Electron main process
+│   ├── renderer.js      # Browser-side logic
+│   ├── index.html       # UI template
+│   ├── styles.css       # Styling
+│   └── package.json     # Node.js dependencies
+├── requirements.txt     # Python dependencies
+├── .gitignore          # Git ignore rules
+└── README.md           # This file
+```
+
+## Technologies Used
+
+### Python Version
+- **Tkinter**: GUI framework
+- **OpenCV (cv2)**: Image processing operations
+- **PIL/Pillow**: Image handling and display
+- **NumPy**: Array operations
+
+### JavaScript Version
+- **Electron**: Desktop application framework
+- **OpenCV.js**: Image processing in the browser
+- **HTML/CSS/JavaScript**: Frontend interface
+
+## License
+This project is open source and available for educational purposes.
+
+## Acknowledgments
+- Discipline: Computer Vision
+- Date: 05/09/2018  
+
+## Credits
+The JavaScript/Electron version was created with the assistance of **QWEN** AI.
 
 

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morphology Image Processing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <div class="controls-panel">
+                <h2>Controls</h2>
+                
+                <button id="selectImageBtn" class="btn-primary">
+                    Select Image
+                </button>
+                
+                <div class="kernel-control">
+                    <label for="kernelSize">Kernel Size:</label>
+                    <input type="number" id="kernelSize" min="1" max="100" value="3">
+                </div>
+                
+                <button id="runProcessBtn" class="btn-success">
+                    Run Process
+                </button>
+                
+                <div class="info-panel">
+                    <p><strong>Current Image:</strong></p>
+                    <p id="imagePath">None selected</p>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content - Image Grid -->
+        <main class="main-content">
+            <h1>Morphology Operations</h1>
+            
+            <div class="image-grid">
+                <!-- Row 1 -->
+                <div class="image-card">
+                    <h3>Original (Gray)</h3>
+                    <div class="image-container" id="img1">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <h3>Erode</h3>
+                    <div class="image-container" id="img2">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <h3>Dilate</h3>
+                    <div class="image-container" id="img3">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <!-- Row 2 -->
+                <div class="image-card">
+                    <h3>Open</h3>
+                    <div class="image-container" id="img4">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <h3>Closed</h3>
+                    <div class="image-container" id="img5">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <h3>Morphological Gradient</h3>
+                    <div class="image-container" id="img6">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <!-- Row 3 -->
+                <div class="image-card">
+                    <h3>Top Hat</h3>
+                    <div class="image-container" id="img7">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <h3>Black Hat</h3>
+                    <div class="image-container" id="img8">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <h3>Dilate + Open + Erode</h3>
+                    <div class="image-container" id="img9">
+                        <span class="placeholder">No image</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Load OpenCV.js -->
+    <script async src="https://docs.opencv.org/4.8.0/opencv.js" onload="onOpenCvReady()" type="text/javascript"></script>
+    
+    <script src="renderer.js"></script>
+</body>
+</html>

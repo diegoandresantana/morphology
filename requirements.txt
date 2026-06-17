@@ -1,0 +1,16 @@
+# Python Morphology Image Processing Requirements
+# Install with: pip install -r requirements.txt
+
+# Core image processing library
+opencv-python>=4.5.0
+
+# Image handling and display
+Pillow>=8.0.0
+
+# Numerical operations
+numpy>=1.19.0
+
+# Note: Tkinter is included with Python standard library
+# On Linux, you may need to install it separately:
+#   sudo apt-get install python-tk (Python 2)
+#   sudo apt-get install python3-tk (Python 3)
